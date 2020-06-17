@@ -10,6 +10,9 @@ import com.soinikov.messenger.databinding.ActivityMainBinding
 import com.soinikov.messenger.ui.fragments.ChatsFragment
 import com.soinikov.messenger.ui.objects.AppDrawer
 import com.soinikov.messenger.utilits.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +27,9 @@ class MainActivity : AppCompatActivity() {
         APP_ACTIVITY = this
         initFirebase()
         initUser{
-            initContacts()
+            CoroutineScope(Dispatchers.IO).launch {
+                initContacts()
+            }
             initFields()
             initFunc()
         }
