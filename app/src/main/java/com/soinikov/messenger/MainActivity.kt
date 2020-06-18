@@ -19,14 +19,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mBinding: ActivityMainBinding
     lateinit var mAppDrawer: AppDrawer
     private lateinit var mToolbar: Toolbar
-
+    private var test = ""
     override fun onCreate(savedInstanceState: Bundle?) {
+        /* Функция запускается один раз, при создании активити */
         super.onCreate(savedInstanceState)
         mBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mBinding.root)
         APP_ACTIVITY = this
         initFirebase()
-        initUser{
+        initUser {
             CoroutineScope(Dispatchers.IO).launch {
                 initContacts()
             }
@@ -36,14 +37,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    private fun initContacts() {
-        if (checkPermission(READ_CONTACTS)){
-            showToast("Чтение контактов")
-        }
-    }
 
 
     private fun initFunc() {
+        /* Функция инициализирует функциональность приложения */
         if (AUTH.currentUser != null) {
             setSupportActionBar(mToolbar)
             mAppDrawer.create()
@@ -53,11 +50,10 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     private fun initFields() {
+        /* Функция инициализирует переменные */
         mToolbar = mBinding.mainToolbar
         mAppDrawer = AppDrawer(this, mToolbar)
-
     }
 
     override fun onStart() {
@@ -76,9 +72,8 @@ class MainActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (ContextCompat.checkSelfPermission(APP_ACTIVITY, READ_CONTACTS)== PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(APP_ACTIVITY, READ_CONTACTS)==PackageManager.PERMISSION_GRANTED){
             initContacts()
         }
     }
-
 }
